@@ -1,0 +1,135 @@
+<div class="col-md-6 col-xs-12">
+    <h2 class="text-left">Thành Phố</h2>
+    <div class="">
+        <form [formGroup]="form" (ngSubmit)="Save(form.value)" class="form-horizontal border-bottom">
+            <div class="form-group">
+                <label class="col-md-3">Tên Tỉnh/Thành phố: </label>
+                <div class="col-md-4">
+                    <input type="text" formControlName="CityName" placeholder="Nhập tên tỉnh/thành phố....." class="form-control" />
+                    <label *ngIf="message" class="alert alert-danger text-white">{{message}}</label>
+                </div>
+                <div class="col-md-5">
+                    <button type="submit" [disabled]="!form.valid" class="cg_btn_capnhat">Lưu</button>
+                    <button type="button" (click)="cancel()" class="cg_btn_cancel">Hủy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr [hidden]="!submited&&list.length>0">
+                    <td colspan="5">Đang tải dữ liệu</td>
+                </tr>
+                <tr *ngFor="let item of list;let i=index">
+                    <td>{{(i+1)+(currPage-1)*10}}</td>
+                    <td (click)="getState(item.CityId)" title="click vào đây để xem danh sách các Quận/Huyện">{{item.CityName }}</td>
+                    <td>
+                        <button class="cg_btn_edit" (click)="Edit(item)" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                        <button class="cg_btn_remove" (click)="Remove(item)" title="Xóa"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot [hidden]="list.length==0">
+                <tr>
+                    <td colspan="3">
+                        <ul *ngIf="pager.pages && pager.pages.length" class="pagination pull-right">
+                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                <a (click)="SetPage(1)">First</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                <a (click)="SetPage(pager.currentPage - 1)">Previous</a>
+                            </li>
+                            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                                <a (click)="SetPage(page)">{{page}}</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                <a (click)="SetPage(pager.currentPage + 1)">Next</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                <a (click)="SetPage(pager.totalPages)">Last</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="col-md-6 col-xs-12">
+    <h2 class="text-left">Quận/Huyện/Thị xã</h2>
+    <div class="">
+        <form [formGroup]="formState" (ngSubmit)="SaveState(formState.value)" class="form-horizontal border-bottom">
+            <div class="form-group">
+                <label class="col-md-3">Tên Quận/Huyện: </label>
+                <div class="col-md-4">
+                    <input type="text" formControlName="StateName" placeholder="Nhập tên Quận/Huyện/Thị xã" class="form-control" />
+                    <label *ngIf="message1" class="alert alert-danger left">{{message1}}</label>
+                </div>
+                <div class="col-md-5">
+                    <button type="submit" [disabled]="!formState.valid" class="cg_btn_capnhat">Lưu</button>
+                    <button type="button" (click)="cancelState()" class="cg_btn_cancel">Hủy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Thành phố</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr [hidden]="!submited&&listState.length>0 ">
+                    <td colspan="5">Đang tải dữ liệu ...<i class="fa fa-circle-o-notch fa-spin"></i></td>
+                </tr>
+                <tr *ngFor="let item of listState;let i=index;">
+                    <td>{{(i+1)+(currPage2-1)*10}}</td>
+                    <td>{{item.StateName }}</td>
+                    <td>{{item.City.CityName }}</td>
+                    <td>
+                        <button class="cg_btn_edit" (click)="EditState(item)" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                        <button class="cg_btn_remove" (click)="RemoveState(item)" title="Xóa"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot [hidden]="listState.length==0">
+                <tr>
+                    <td colspan="1"></td>
+                    <td colspan="3">
+                        <ul *ngIf="pager2.pages && pager2.pages.length" class="pagination pull-right">
+                            <li [ngClass]="{disabled:pager2.currentPage === 1}">
+                                <a (click)="SetPageState(1)">First</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager2.currentPage === 1}">
+                                <a (click)="SetPageState(pager2.currentPage - 1)">Previous</a>
+                            </li>
+                            <li *ngFor="let page of pager2.pages" [ngClass]="{active:pager2.currentPage === page}">
+                                <a (click)="SetPageState(page)">{{page}}</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager2.currentPage === pager2.totalPages}">
+                                <a (click)="SetPageState(pager2.currentPage + 1)">Next</a>
+                            </li>
+                            <li [ngClass]="{disabled:pager2.currentPage === pager2.totalPages}">
+                                <a (click)="SetPageState(pager2.totalPages)">Last</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

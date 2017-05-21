@@ -1,0 +1,21 @@
+.modal-static { 
+    position: fixed;
+    top: 40% !important; 
+    left: 30% !important; 
+    margin-top: -100px;  
+    margin-left: -100px; 
+    transition: 0.5s;
+    overflow: visible !important;
+}
+.modal-static,
+.modal-static .modal-dialog,
+.modal-static .modal-content {
+    min-width: 500px; 
+    height: auto; 
+}
+.fade{opacity: 1}
+.modal-static .modal-dialog,
+.modal-static .modal-content {
+    padding: 0 !important; 
+    margin: 0 !important;
+}

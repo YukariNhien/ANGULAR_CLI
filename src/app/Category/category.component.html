@@ -1,0 +1,48 @@
+<div class="">
+    <div class="padding-10">
+        <form [formGroup]="form" (ngSubmit)="Save(form.value)" class="form-horizontal border-bottom">
+            <div class="form-group">
+                <label class="col-md-1">Tên loại: </label>
+                <div class="col-md-4">
+                    <input type="text" formControlName="Name" placeholder="Nhập tên loại" class="form-control" />
+                    <label class="text-white">{{message}}</label>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" [disabled]="!form.valid" class="cg_btn_capnhat">Lưu</button>
+                    <button type="button" (click)="cancel()" class="cg_btn_cancel">Hủy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <h1>Dánh sách</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên loại</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr [hidden]="!submited">
+                    <td colspan="5">Đang tải dữ liệu</td>
+                </tr>
+                <tr *ngFor="let item of list">
+                    <td>{{item.CategoryId}}</td>
+                    <td>{{item.Name }}</td>
+
+                    <td>
+                        <button class="cg_btn_edit" (click)="Edit(item)" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                        <button class="cg_btn_remove" (click)="Remove(item)" title="Xóa"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+</div>

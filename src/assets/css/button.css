@@ -1,0 +1,19 @@
+.cg_btn_capnhat{border: 0px;width: 120px;font-family: Arial;height: 35px;text-align: center;color: #fff;line-height: 35px;text-transform: uppercase;background-color: #03b4f5;border-radius: 3px;display: inline-block;}
+.cg_btn_capnhat:hover{background-color: #0287d1;}
+.cg_btn_add{border: 0px;width: 120px;height: 35px;text-align: center;color: #fff;line-height: 35px;text-transform:capitalize ;background-color: #a4e388;border-radius: 3px;display: inline-block;}
+.cg_btn_add:hover{background-color: #69a74e;}
+.cg_btn_cancel{border: 0px;width: 120px;font-family: Arial;height: 35px;text-align: center;color: #fff;line-height: 35px;text-transform:capitalize ;background-color: #69a;border-radius: 3px;display: inline-block;}
+.cg_btn_cancel:hover{background-color: #d21111;color:#fff}
+.cg_btn_back{border: 0px;width: 134px;height: 35px;text-align: center;line-height: 35px;border-radius: 3px;background-color: #dcdcdc;color: #333 !important;display: inline-block;}
+.cg_btn_continue {border: 0px;width: 134px;height: 32px;text-align: center;line-height: 32px;color: #fff !important;border-radius: 3px;background-color: #29b6f6; display: inline-block;}
+.cg_btn_remove{border: 0px;width: 50px;height: 35px;text-align: center;line-height: 35px;border-radius: 3px;background-color: #d21111;color: #fff !important;display: inline-block;}
+button[disabled] {
+    cursor: default;
+    background-color: #787878!important;
+}
+.cg_btn_edit{border: 0px;width: 50px;height: 35px;text-align:
+ center;color: #fff;line-height: 35px;
+ text-transform:capitalize ;
+ background-color: #a4e388;border-radius: 3px;
+ display: inline-block;
+ }

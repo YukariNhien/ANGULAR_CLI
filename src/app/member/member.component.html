@@ -1,0 +1,185 @@
+<div *ngIf="!create">
+    <div class="col-md-6"><button class="cg_btn_capnhat" (click)="initForm(member);create=true;">Thêm mới</button> </div>
+    <div class="col-md-6 right">
+        <input type="text" [(ngModel)]="timkiem" (keyup)="search(timkiem)" name="search" placeholder="Nhập tên, số điện thoại, email...."
+            class="form-control" />
+    </div>
+</div>
+<div *ngIf="!create">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Ảnh đại diện</th>
+                <th>Tên</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Email</th>
+                <th>Mô tả</th>
+                <th>Thông tin chi tiết</th>
+                <th>Kĩ năng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr [hidden]="!submited">
+                <td colspan="8">Đang tải dữ liệu</td>
+            </tr>
+            <tr *ngFor="let item of list;let i=index;">
+                <td>{{i}}</td>
+                <td>
+                    <img src="http://localhost:53256/images/team/{{item.Image}}" *ngIf="item.Image" width="70" height="70" [alt]="item.Name"
+                    />
+                </td>
+                <td>{{item.Name }}</td>
+                <td>{{item.Phone }}</td>
+                <td>{{item.Address }}</td>
+                <td>{{item.Email }}</td>
+                <td>{{item.Description }}</td>
+                <td [innerHtml]="item.Information"></td>
+                <td>
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#processing-modal" (click)="showKill(item)">
+                      <i class="glyphicon glyphicon-play"></i> Xem
+                    </button>
+                </td>
+                <td>
+                    <button class="cg_btn_edit" (click)="Edit(item)" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button class="cg_btn_remove" (click)="Remove(item)" title="Xóa"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+<div *ngIf="message" class="alert alert-danger col-sm-12">{{message}}</div>
+<form class="form-horizontal border-bottom" [formGroup]="form" (ngSubmit)="Save(form.value)" role="form" *ngIf="create">
+
+    <header class="alert alert-info">
+        <h2>Thêm/Chỉnh sửa thông tin member</h2>
+    </header>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label" for="inputSuccess2">Họ và tên</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" required placeholder="Họ và tên..." maxlength="250" formControlName="Name" name="name">
+            <span *ngIf="this.form.controls['Name'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </div>
+    </div>
+
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Số điện thoại</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" required maxlength="20" placeholder="Số điện thoại" formControlName="Phone">
+            <span *ngIf="this.form.controls['Phone'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Địa chỉ</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" required formControlName="Address" maxlength="20" placeholder="Nhập địa chỉ...">
+            <span *ngIf="this.form.controls['Address'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Email</label>
+        <div class="col-md-9">
+            <input type="email" class="form-control" formControlName="Email" maxlength="250" placeholder="Địa chỉ email..">
+            <span *ngIf="this.form.controls['Email'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Mô tả ngắn</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" formControlName="Description" maxlength="20" placeholder="Đoạn giới thiệu ngắn...">
+            <span *ngIf="this.form.controls['Description'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Thông tin chi tiết</label>
+        <div class="col-md-9">
+            <ckeditor [formControl]="form.controls.Information" [config]="{uiColor: '#74AFAD', language:'vi'}" debounce="500"></ckeditor>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Captcha" class="col-md-3 control-label">Image</label>
+        <div class="col-md-9">
+            <image-upload [max]="1" [url]="urlUpload" [buttonCaption]="'Select Images!'" [dropBoxMessage]="'Drop your images here!'"
+                (onFileUploadFinish)="imageUploaded($event)" (onRemove)="imageRemoved($event)">
+            </image-upload>
+        </div>
+    </div>
+    <div class="form-group has-feedback">
+        <label class="col-md-3 control-label">Kĩ năng:</label>
+        <div class="col-md-9">
+            <div class="form-group" formArrayName="Skills">
+                <div class="col-sm-10">
+                    <a href="javascript:;" id="UpDateOrInsert" (click)="addSkill(skill)" class="cg_btn_add right">Thêm</a>
+                    <div *ngFor="let kill of form.controls.Skills.controls;let i=index" class="col-sm-12 panel panel-default">
+                        <div class="panel-heading">
+                            <span>Kĩ năng {{i + 1}}</span>
+                            <span *ngIf="form.controls.Skills.controls.length > 1" class="right" (click)="removeSkill(i)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div [formGroupName]="i" class="panel-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label text-777">Tên kĩ năng</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" formControlName="Name" maxlength="50" placeholder="Nhập tên kĩ năng...">
+                                    <small [hidden]="form.controls.Skills.controls[i].controls.Name.valid" class="text-danger text-left">Nhập tên kĩ năng</small>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label text-777">Khản năng đạt được(%)</label>
+                                <div class="col-md-9">
+                                    <div class="range-slider">
+                                        <input class="range-slider__range" formControlName="Value" type="range" min="0" max="100">
+                                        <span class="range-slider__value">{{this.form.controls['Skills'].controls[i].get('Value').value}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="col-sm-2"></label>
+        <div class="col-sm-10">
+            <span class="text-white"> {{message}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 controls">
+            <button type="submit" [disabled]="!form.valid" class="cg_btn_capnhat" type="submit">Lưu</button>
+            <button type="button" (click)="cancel();" type="button" class="cg_btn_cancel">Hủy</button>
+        </div>
+    </div>
+</form>
+<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-777">Các kĩ năng</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group has-feedback" *ngFor="let item of listSkill">
+                    <label class="col-md-3 text-success">{{item.Name}}</label>
+                    <div class="col-md-9">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%': item.Value}">
+                                {{item.Value}} %
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

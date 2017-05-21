@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="wrapper">
+      <div class="side-bar" [hidden]="!login">
+        <ul>
+          <li class="menu-head" style="background-color:#29487d">
+            Yukari <a href="javascript:void(0)" class="push_menu" (click)="onPushMenu()"><span class="glyphicon glyphicon-align-justify pull-right"></span></a>
+          </li>
+          <div class="menu">
+            <li>
+              <a href="javascript:void(0)" routerLinkActive="active" routerLink='/loai'>QL loại<span class="glyphicon glyphicon-list-alt pull-right"></span></a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" routerLinkActive="active" routerLink='/thanh-pho'>QL Tỉnh/TP/Quận..<span class="glyphicon glyphicon-bookmark pull-right"></span></a>
+            </li>
+
+            <li>
+              <a href="javascript:void(0)" routerLinkActive="active" routerLink='/bai-viet'>QL Bài Viết <span class="glyphicon glyphicon-file pull-right"></span></a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" routerLinkActive="active" routerLink='/doi-ngu'>QL thành viên<span class="glyphicon glyphicon-user pull-right"></span></a>
+            </li>
+            <li [hidden]="!isLogin">
+              <a href="javascript:void(0)" (click)="logout()">Log out <span class="glyphicon glyphicon-cog pull-right"></span></a>
+            </li>
+          </div>
+
+        </ul>
+      </div>
+      <div class="content padding-top-10">
+        <div class="col-md-12">
+          <div class="">
+            <router-outlet>
+            </router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
